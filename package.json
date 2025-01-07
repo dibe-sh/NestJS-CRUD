@@ -1,8 +1,8 @@
 {
-  "name": "NestCRUD",
+  "name": "nest-crud",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A simple crud app using nestjs",
+  "author": "Dibesh Raj Subedi <dibeshrsubedi@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
