@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  # Backend Setup
+  backend:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    env_file: 
+      - .env
+    ports:
+      - '${PORT}:${PORT}'
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=${PORT}
+    command: yarn dev
+
+  # PostGres Server Setup
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      DATABASE_URL: ${DATABASE_URL}
+      POSTGRES_EXPOSE_PORT=7001: ${POSTGRES_EXPOSE_PORT}
+    volumes:
+      - nest_crud_db:/var/lib/postgresql/data
+    ports:
+      - '${POSTGRES_EXPOSE_PORT}:${POSTGRES_PORT}'
+  
+  # PG Admin Setup
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: ${PGADMIN_CONFIG_SERVER_MODE}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+      PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION: ${PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION}
+      PGADMIN_CONFIG_ALLOW_SAVE_PASSWORD: ${PGADMIN_CONFIG_ALLOW_SAVE_PASSWORD}
+    ports:
+      - '${PGADMIN_PORT}:80'
+    depends_on:
+      - postgres
+    volumes:
+      - nest_crud_pg_admin_data:/var/lib/pgadmin
+
+volumes:
+  nest_crud_db:
+  nest_crud_pg_admin_data:
