@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 declare const module: any;
 
@@ -19,6 +20,9 @@ async function bootstrap() {
     optionsSuccessStatus: 204,
     credentials: true,
   });
+
+  // Custom Interceptor
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   await app.listen(PORT);
   console.log(
