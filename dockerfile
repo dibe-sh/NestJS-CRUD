@@ -2,11 +2,11 @@
 FROM node:20-alpine
 
 # Step 2: Set the working directory
-WORKDIR /
+WORKDIR /app
 
 # Step 3: Copy root-level files and backend-specific files
-COPY package.json yarn.lock ./
-COPY . .
+COPY package.json yarn.lock /app/
+COPY . /app/
 
 # Step 4: Install dependencies with Yarn Workspaces
 RUN yarn

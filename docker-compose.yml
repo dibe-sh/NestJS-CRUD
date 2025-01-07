@@ -1,15 +1,16 @@
-version: '3.9'
-
 services:
   # Backend Setup
   backend:
     build:
       context: .
       dockerfile: ./dockerfile
-    env_file: 
+    env_file:
       - .env
     ports:
       - '${PORT}:${PORT}'
+    volumes:
+      - .:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
@@ -28,7 +29,7 @@ services:
       - nest_crud_db:/var/lib/postgresql/data
     ports:
       - '${POSTGRES_EXPOSE_PORT}:${POSTGRES_PORT}'
-  
+
   # PG Admin Setup
   pgadmin:
     image: dpage/pgadmin4
