@@ -10,6 +10,7 @@ COPY . /app/
 
 # Step 4: Install dependencies with Yarn Workspaces
 RUN yarn
+RUN npx prisma generate
 
 # Step 5: Install NestJS CLI globally (optional)
 RUN yarn global add @nestjs/cli
@@ -19,4 +20,4 @@ ENV NODE_ENV=${NODE_ENV}
 EXPOSE ${PORT}
 
 # Step 7: Start the backend server
-CMD ["yarn", "dev"]
+CMD ["npx","prisma","migrate","dev","&","yarn", "dev"]
