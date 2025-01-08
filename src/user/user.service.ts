@@ -56,10 +56,12 @@ export class UserService {
     if (updateUserDto.password)
       updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
 
-    return this.prisma.user.update({
+    const updated = await this.prisma.user.update({
       where: { id },
       data: updateUserDto,
     });
+    delete updated.password;
+    return updated;
   }
 
   async remove(id: number, currentUserId: number) {
