@@ -65,8 +65,6 @@ export class UserService {
   async remove(id: number, currentUserId: number) {
     const user = await this.findById(currentUserId);
 
-    if (!user) throw new NotFoundException('User not found');
-
     if (user.role === 'ADMIN')
       throw new NotFoundException('Admin cannot be deleted');
 
