@@ -53,12 +53,27 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.findById(id);
     if (updateUserDto.password)
       updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
 
+    const isMatch = await bcrypt.compare(
+      updateUserDto.old_password,
+      user.password,
+    );
+
+    if (!isMatch)
+      throw new HttpException(
+        'Old password not matched',
+        HttpStatus.BAD_REQUEST,
+      );
+
     const updated = await this.prisma.user.update({
       where: { id },
-      data: updateUserDto,
+      data: {
+        password: updateUserDto.password,
+        name: updateUserDto.name,
+      },
     });
     delete updated.password;
     return updated;
