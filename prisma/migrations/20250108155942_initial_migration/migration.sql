@@ -8,6 +8,8 @@ CREATE TABLE "User" (
     "name" TEXT,
     "password" TEXT,
     "role" "Role" NOT NULL DEFAULT 'USER',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -19,6 +21,8 @@ CREATE TABLE "Articles" (
     "description" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "authorId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Articles_pkey" PRIMARY KEY ("id")
 );
