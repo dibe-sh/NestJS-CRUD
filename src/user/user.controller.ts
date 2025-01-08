@@ -1,5 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { RegisterUserDto, UseRegisteredResponse } from './dto/create-user.dto';
+import {
+  RegisterUserDto,
+  UseRegisteredResponse,
+} from './dto/register-user.dto';
 import { UserService } from './user.service';
 import {
   ApiBadRequestResponse,
