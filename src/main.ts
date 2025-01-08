@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 declare const module: any;
 
@@ -10,6 +11,23 @@ async function bootstrap() {
   const appConfig = app.get(ConfigService);
 
   const PORT = appConfig.get('PORT') ?? 7002;
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Nest CRUD API')
+    .setDescription('A simple CRUD API using NestJS and Postgres')
+    .setVersion('1.0')
+    .build();
+
+  // Swagger Setup
+  const documentFactory = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup(
+    'api',
+    app,
+    documentFactory,
+    // Expose swagger.json if required
+    //   {
+    //   jsonDocumentUrl: 'swagger/json',
+    // }
+  );
 
   // CORS Prevention
   app.enableCors({
