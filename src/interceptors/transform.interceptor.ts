@@ -30,11 +30,12 @@ export class TransformInterceptor<T>
         data,
       })),
       catchError((err) => {
+        console.log('Interceptor: ', err);
         const errorStatusCode =
           err instanceof HttpException ? err.getStatus() : 500;
         const errorResponse = {
           statusCode: errorStatusCode,
-          data: {},
+          data: err.message,
         };
         return throwError(
           () => new HttpException(errorResponse, errorStatusCode),
