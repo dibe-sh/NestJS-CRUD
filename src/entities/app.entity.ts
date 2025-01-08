@@ -10,3 +10,21 @@ export class HealthCheckResponse {
   })
   statusCode: number;
 }
+
+export class BadRequestResponse {
+  @ApiProperty()
+  data: string;
+  @ApiProperty({
+    default: 400,
+  })
+  statusCode: number;
+}
+
+export class InternalServerErrorResponse {
+  @ApiProperty()
+  data: string;
+  @ApiProperty({
+    default: 500,
+  })
+  statusCode: number;
+}
