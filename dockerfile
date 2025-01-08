@@ -20,4 +20,4 @@ ENV NODE_ENV=${NODE_ENV}
 EXPOSE ${PORT}
 
 # Step 7: Start the backend server
-CMD ["npx","prisma","migrate","dev","&","yarn", "dev"]
+CMD ["yarn", "dev"]
