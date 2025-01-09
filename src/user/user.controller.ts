@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common';
 import {
   RegisterUserDto,
   UseRegisteredResponse,
@@ -6,12 +6,18 @@ import {
 import { UserService } from './user.service';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { BadRequestResponse } from '../entities/app.entity';
+import {
+  BadRequestResponse,
+  UnauthorizedResponse,
+} from '../entities/app.entity';
 import { UpdateUserDto, UseUpdatedResponse } from './dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/jwt/jwt.auth-guard';
 
 @Controller('user')
 export class UserController {
@@ -24,7 +30,7 @@ export class UserController {
     type: UseRegisteredResponse,
   })
   @ApiBadRequestResponse({
-    description: 'Internal Server Error',
+    description: 'Bad Request',
     type: BadRequestResponse,
   })
   async create(@Body() data: RegisterUserDto) {
@@ -32,14 +38,20 @@ export class UserController {
   }
 
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT')
   @ApiOperation({ summary: 'Update user' })
   @ApiOkResponse({
-    description: 'Register User',
+    description: 'User Updated',
     type: UseUpdatedResponse,
   })
   @ApiBadRequestResponse({
-    description: 'Internal Server Error',
+    description: 'Bad Request',
     type: BadRequestResponse,
+  })
+  @ApiUnauthorizedResponse({
+    description: 'Unauthorized',
+    type: UnauthorizedResponse,
   })
   async update(@Param('id') id: string, @Body() data: UpdateUserDto) {
     return this.userService.update(Number(id), data);
