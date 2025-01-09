@@ -24,13 +24,34 @@ export class ArticlesService {
   }
 
   async findAll() {
-    return this.prisma.articles.findMany();
+    return this.prisma.articles.findMany({
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+          },
+        },
+      },
+    });
   }
 
   async findById(id: number) {
     const article = await this.prisma.articles.findUnique({
       where: {
         id,
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+          },
+        },
       },
     });
 
@@ -83,12 +104,22 @@ export class ArticlesService {
     const existingArticle = await this.findById(id);
 
     if (existingArticle.image.length > 1) {
-      const oldImage = existingArticle.image.split['/uploads/'];
+      const oldImage = existingArticle.image.split('/uploads/')[1];
       this.deleteImage(oldImage);
     }
 
     return this.prisma.articles.delete({
       where: { id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            role: true,
+          },
+        },
+      },
     });
   }
 }
