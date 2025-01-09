@@ -16,6 +16,7 @@ async function bootstrap() {
     .setTitle('Nest CRUD API')
     .setDescription('A simple CRUD API using NestJS and Postgres')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   // Swagger Setup
@@ -44,7 +45,16 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
 
   // API Validation
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   await app.listen(PORT);
