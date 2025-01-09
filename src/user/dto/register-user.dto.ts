@@ -56,7 +56,7 @@ export class UseRegisteredResponse {
   data: RegisterUserDto;
 
   @ApiProperty({
-    default: 20,
+    default: 201,
   })
   statusCode: number;
 }
