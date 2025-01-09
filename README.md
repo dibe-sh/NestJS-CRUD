@@ -63,6 +63,9 @@ Some of the future improvements required are:
 3. Implement role-based access control.
 4. Add more detailed error handling.
 5. Implement Hot Module Reload(HMR) on package add or removal.
+6. Authentication is required for all protected routes.
+7. Admin users cannot be deleted by other users.
+8. Ensure that the uploads directory exists and is writable by the server.
 
 ## License 🗒️
 
