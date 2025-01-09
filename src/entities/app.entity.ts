@@ -12,7 +12,9 @@ export class HealthCheckResponse {
 }
 
 export class BadRequestResponse {
-  @ApiProperty()
+  @ApiProperty({
+    default: 'Bad Request',
+  })
   data: string;
   @ApiProperty({
     default: 400,
@@ -20,8 +22,21 @@ export class BadRequestResponse {
   statusCode: number;
 }
 
+export class UnauthorizedResponse {
+  @ApiProperty({
+    default: 'Unauthorized',
+  })
+  data: string;
+  @ApiProperty({
+    default: 401,
+  })
+  statusCode: number;
+}
+
 export class InternalServerErrorResponse {
-  @ApiProperty()
+  @ApiProperty({
+    default: 'Internal Server Error',
+  })
   data: string;
   @ApiProperty({
     default: 500,
