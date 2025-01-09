@@ -10,8 +10,10 @@ services:
       - '${PORT}:${PORT}'
     volumes:
       - .:/app
+      - ./uploads:/app/uploads
       - /app/node_modules
     environment:
+      - UPLOAD_DIR=/app/uploads
       - NODE_ENV=${NODE_ENV}
       - PORT=${PORT}
     command: yarn dev

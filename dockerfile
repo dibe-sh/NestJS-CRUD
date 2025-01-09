@@ -8,6 +8,9 @@ WORKDIR /app
 COPY package.json yarn.lock /app/
 COPY . /app/
 
+ENV UPLOAD_DIR=/app/uploads
+RUN mkdir -p /app/uploads
+
 # Step 4: Install dependencies with Yarn Workspaces
 RUN yarn
 RUN npx prisma generate
