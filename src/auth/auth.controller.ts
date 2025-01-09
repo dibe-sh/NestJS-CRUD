@@ -6,7 +6,7 @@ import {
   ApiCreatedResponse,
   ApiOperation,
 } from '@nestjs/swagger';
-import { BadRequestResponse } from '../entities/app.entity';
+import { BadRequestResponse } from '../common/entities/app.entity';
 
 @Controller('auth')
 export class AuthController {

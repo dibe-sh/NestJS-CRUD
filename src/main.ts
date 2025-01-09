@@ -1,9 +1,10 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import * as fs from 'fs';
 
 declare const module: any;
 
@@ -19,17 +20,16 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
+  // Create uploads directory if it doesn't exist
+  if (!fs.existsSync('./uploads')) {
+    fs.mkdirSync('./uploads');
+  }
+
   // Swagger Setup
   const documentFactory = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup(
-    'api',
-    app,
-    documentFactory,
-    // Expose swagger.json if required
-    //   {
-    //   jsonDocumentUrl: 'swagger/json',
-    // }
-  );
+  SwaggerModule.setup('api', app, documentFactory, {
+    jsonDocumentUrl: 'swagger/json',
+  });
 
   // CORS Prevention
   app.enableCors({

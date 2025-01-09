@@ -15,7 +15,7 @@ import {
 import {
   BadRequestResponse,
   UnauthorizedResponse,
-} from '../entities/app.entity';
+} from '../common/entities/app.entity';
 import { UpdateUserDto, UseUpdatedResponse } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/jwt/jwt.auth-guard';
 
@@ -39,7 +39,7 @@ export class UserController {
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth('JWT')
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user' })
   @ApiOkResponse({
     description: 'User Updated',
